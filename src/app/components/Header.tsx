@@ -12,7 +12,12 @@ const Header = (props: any) => {
   return (
     <header className="bg-[#1F2030] p-2 sticky top-0 left-0 right-0 z-[20] mx-auto flex flex-wrap w-full items-center justify-between">
       <div>
-        <IconButton aria-label="delete">
+        <IconButton
+          aria-label="delete"
+          onClick={(e) => {
+            props.setSliderOpened(true);
+          }}
+        >
           <MenuIcon color="primary" />
         </IconButton>
       </div>
