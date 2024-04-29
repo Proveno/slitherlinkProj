@@ -31,7 +31,8 @@ export default function SideDrawer(parameters: any) {
                 </div>
                 {/* Home */}
                 <div className="h-[72px] py-4">
-                    <IconButton aria-label="home" onClick={() => router.push('http://localhost:3000')}>
+                    <IconButton aria-label="home"
+                                onClick={() => router.push('http://localhost:3000', parameters.setSliderOpened(false))}>
                         <HomeIcon color="primary"/>
                     </IconButton>
                 </div>
