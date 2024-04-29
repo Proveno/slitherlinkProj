@@ -10,8 +10,10 @@ import Favorite from "@mui/icons-material/Favorite";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
+import { useState } from "react";
 
 const Comments = (props: any) => {
+  const [comment, setComment] = useState("");
   return (
     <div className="w-full pt-[72px] h-screen relative right-0 bg-[#0C0D14]">
       <div className="bg-[#28224F] p-2 flex justify-between">
@@ -32,7 +34,9 @@ const Comments = (props: any) => {
           label={"Your comment"}
           multiline
           variant="outlined"
-          onChange={(e) => {}}
+          onChange={(e) => {
+            setComment(e.target.value);
+          }}
           InputLabelProps={{
             sx: {
               color: "#a1a1aa",

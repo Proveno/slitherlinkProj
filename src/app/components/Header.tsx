@@ -24,6 +24,9 @@ const Header = (props: any) => {
 
       <div className="w-2/5">
         <TextField
+          onChange={(e) => {
+            props.setSearch(e.target.value);
+          }}
           fullWidth
           id="search-input"
           label={"Search"}

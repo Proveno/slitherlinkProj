@@ -27,6 +27,7 @@ const Footer = (props: any) => {
     newValue: string | null
   ) => {
     setLike(newValue);
+    props.setLikeValue(newValue);
   };
 
   return (
@@ -65,6 +66,9 @@ const Footer = (props: any) => {
 
       {/* Favorite */}
       <Checkbox
+        onChange={(e) => {
+          props.setFavoriteValue(e.target.checked);
+        }}
         icon={<FavoriteBorder color="primary" />}
         checkedIcon={<Favorite color="secondary" />}
       />
@@ -77,11 +81,21 @@ const Footer = (props: any) => {
       </div>
 
       {/* Gamepad */}
-      <IconButton aria-label="gamepad">
+      <IconButton
+        aria-label="gamepad"
+        onClick={(e) => {
+          props.setContoll("Click");
+        }}
+      >
         <GamepadOutlinedIcon color="primary" />
       </IconButton>
       {/* fullscreen */}
-      <IconButton aria-label="fullscreen">
+      <IconButton
+        aria-label="fullscreen"
+        onClick={(e) => {
+          props.setFullscreen(true);
+        }}
+      >
         <FullscreenIcon color="primary" />
       </IconButton>
     </footer>
