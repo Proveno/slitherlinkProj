@@ -10,7 +10,7 @@ import Favorite from "@mui/icons-material/Favorite";
 
 const Header = (props: any) => {
   return (
-    <header className="bg-[#1F2030] p-2 sticky top-0 left-0 right-0 z-[20] mx-auto flex flex-wrap w-full items-center justify-between">
+    <header className="bg-[#1F2030] p-2 absolute top-0 left-0 right-0 z-[20] mx-auto flex flex-wrap w-full items-center justify-between">
       <div>
         <IconButton
           aria-label="delete"
