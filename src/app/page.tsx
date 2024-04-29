@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-
+import Comments from "@/app/components/Comments";
 import SideDrawer from "@/app/components/Drawer";
 
 import { useState } from "react";
@@ -24,7 +24,9 @@ export default function Home() {
         <PopUpFooter></PopUpFooter>
         <Footer></Footer>
       </div>
-      <div className="pt-[72px] w-1/5 min-w-[14rem]">Comments</div>
+      <div className=" w-1/3 min-w-[14rem]">
+        <Comments></Comments>
+      </div>
     </div>
   );
 }
