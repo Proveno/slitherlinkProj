@@ -6,10 +6,14 @@ import HomeIcon from "@mui/icons-material/Home";
 import HistoryIcon from "@mui/icons-material/History";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import ReplayIcon from "@mui/icons-material/Replay";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import {useRouter} from "next/navigation";
+import ToggleButton from "@mui/material/ToggleButton";
+import React from "react";
 
 export default function SideDrawer(parameters: any) {
     const router = useRouter();
+    const [selected, setSelected] = React.useState(false);
     return (
         <Drawer
             open={parameters.sliderOpened}
@@ -17,7 +21,7 @@ export default function SideDrawer(parameters: any) {
                 parameters.setSliderOpened(false);
             }}
         >
-            <div className="w-14 bg-[#1F2030] text-[#a1a1aa] h-screen text-center">
+            <div className="w-14 bg-[--background-color] h-screen text-center">
                 {/* Close */}
                 <div className="h-[72px] py-4">
                     <IconButton
@@ -56,6 +60,15 @@ export default function SideDrawer(parameters: any) {
                     <IconButton aria-label="home">
                         <ReplayIcon color="primary"/>
                     </IconButton>
+                </div>
+
+                {/* theme */}
+                <div className="h-[72px] py-4">
+                    <ToggleButton aria-label="home" value="check" selected={selected} onChange={() => {
+                        setSelected(!selected);
+                    }} sx={{border: 0}}>
+                        <AutoAwesomeIcon color="primary"/>
+                    </ToggleButton>
                 </div>
             </div>
         </Drawer>
