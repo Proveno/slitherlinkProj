@@ -1,5 +1,5 @@
-import { connectMongoDB } from "@/app/lib/dbConnect";
-import Player from "@/app/models/Player";
+import { connectMongoDB } from "@/lib/dbConnect";
+import Player from "@/models/Player";
 import { NextResponse } from "next/server";
 
 export async function GET(req: any) {
