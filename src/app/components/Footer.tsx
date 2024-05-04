@@ -18,6 +18,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useState } from "react";
+import Rating from "@mui/material/Rating";
 
 const Footer = (props: any) => {
   const [like, setLike] = useState<string | null>();
@@ -64,14 +65,20 @@ const Footer = (props: any) => {
         </ToggleButton>
       </ToggleButtonGroup>
 
+      <Rating
+        name="simple-controlled"
+        onChange={(event, newValue) => {
+          props.setRatingValue(newValue);
+        }}
+      />
       {/* Favorite */}
-      <Checkbox
+      {/* <Checkbox
         onChange={(e) => {
           props.setFavoriteValue(e.target.checked);
         }}
         icon={<FavoriteBorder color="primary" />}
         checkedIcon={<Favorite color="secondary" />}
-      />
+      /> */}
       {/* Feedback */}
       <div className="flex">
         <IconButton aria-label="feedback">
@@ -93,7 +100,7 @@ const Footer = (props: any) => {
       <IconButton
         aria-label="fullscreen"
         onClick={(e) => {
-          props.setFullscreen(true);
+          props.setFullscreen(!props.fullscreen);
         }}
       >
         <FullscreenIcon color="primary" />

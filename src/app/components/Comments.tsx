@@ -22,7 +22,12 @@ const Comments = (props: any) => {
           <IconButton aria-label="3Dots">
             <MoreVertIcon color="primary" />
           </IconButton>
-          <IconButton aria-label="closeComments">
+          <IconButton
+            aria-label="closeComments"
+            onClick={(e) => {
+              props.setCommentOpened(false);
+            }}
+          >
             <CloseIcon color="primary" />
           </IconButton>
         </div>

@@ -7,8 +7,10 @@ import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
+import { useRouter } from "next/navigation";
 
 const Header = (props: any) => {
+  const router = useRouter();
   return (
     <header className="bg-[#1F2030] p-2 absolute top-0 left-0 right-0 z-[20] mx-auto flex flex-wrap w-full items-center justify-between">
       <div>
@@ -61,9 +63,21 @@ const Header = (props: any) => {
           icon={<FavoriteBorder color="primary" />}
           checkedIcon={<Favorite color="secondary" />}
         />
-        <Button variant="contained" color="secondary">
-          Log in
-        </Button>
+        {props.isLogined ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={(e) => {
+              router.push("/account/");
+            }}
+          >
+            Account
+          </Button>
+        ) : (
+          <Button variant="contained" color="secondary">
+            Log in
+          </Button>
+        )}
       </div>
     </header>
   );
