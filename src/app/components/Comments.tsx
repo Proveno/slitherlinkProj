@@ -1,18 +1,13 @@
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
-import { useState } from "react";
+import {useState} from "react";
 
 const Comments = (props: any) => {
+
   const [comment, setComment] = useState("");
   return (
     <div className="w-full pt-[72px] h-screen relative right-0 bg-[#0C0D14]">
@@ -30,41 +25,8 @@ const Comments = (props: any) => {
           >
             <CloseIcon color="primary" />
           </IconButton>
+
         </div>
-      </div>
-      <div className="absolute bottom-0 w-full p-2">
-        <TextField
-          fullWidth
-          id="description-objectcreate-input"
-          label={"Your comment"}
-          multiline
-          variant="outlined"
-          onChange={(e) => {
-            setComment(e.target.value);
-          }}
-          InputLabelProps={{
-            sx: {
-              color: "#a1a1aa",
-            },
-          }}
-          inputProps={{ style: { color: "#fff" } }}
-          sx={{
-            background: "#262626",
-            color: "#fff",
-            borderRadius: "5px",
-          }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <IconButton aria-label="delete">
-                  <SendIcon color="primary" />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </div>
-    </div>
-  );
+    );
 };
 export default Comments;

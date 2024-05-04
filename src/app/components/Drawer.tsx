@@ -1,13 +1,4 @@
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
-import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 import Drawer from "@mui/material/Drawer";
@@ -16,22 +7,20 @@ import HistoryIcon from "@mui/icons-material/History";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import ReplayIcon from "@mui/icons-material/Replay";
 import ChatIcon from "@mui/icons-material/Chat";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import {useRouter} from "next/navigation";
+import ToggleButton from "@mui/material/ToggleButton";
+import React from "react";
+
 
 export default function SideDrawer(parameters: any) {
-  return (
-    <Drawer
-      open={parameters.sliderOpened}
-      onClose={() => {
-        parameters.setSliderOpened(false);
-      }}
-    >
-      <div className="w-14 bg-[#1F2030] text-[#a1a1aa] h-screen text-center">
-        {/* Close */}
-        <div className="h-[72px] py-4">
-          <IconButton
-            aria-label="close"
-            onClick={(e) => {
-              parameters.setSliderOpened(false);
+    const router = useRouter();
+    const [selected, setSelected] = React.useState(false);
+    return (
+        <Drawer
+            open={parameters.sliderOpened}
+            onClose={() => {
+                parameters.setSliderOpened(false);
             }}
           >
             <CloseIcon color="primary" />
