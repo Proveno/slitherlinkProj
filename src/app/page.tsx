@@ -21,7 +21,8 @@ export default function Home() {
   const [fullscreen, setFullscreen] = useState(false);
 
   const [isLogined, setIsLogined] = useState(false);
-
+  const [theme, setTheme] = useState(false);
+  
   const getData = async () => {
     try {
       var token = await tokenInfo();
