@@ -22,7 +22,7 @@ export default function Home() {
 
   const [isLogined, setIsLogined] = useState(false);
   const [theme, setTheme] = useState(false);
-  
+
   const getData = async () => {
     try {
       var token = await tokenInfo();
@@ -72,6 +72,31 @@ export default function Home() {
     }
   }, [drawerClick]);
 
+  const [twoDArr, setTwoDArr] = useState([
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [5, 5, 5, 5, 0],
+    [5, 5, 5, 5, 5],
+    [0, 0, 5, 5, 5],
+  ]);
+
+  const [userField, setUserField] = useState([
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+  ]);
+
+  const [reload, setReload] = useState(false);
+
+  console.table(userField);
   return (
     <div className="flex">
       <Header
@@ -85,8 +110,87 @@ export default function Home() {
         setDrawerClick={setDrawerClick}
       ></SideDrawer>
       <div className="w-full h-screen relative top-0 pt-[72px] bg-zinc-900">
-        <div className="bg-zinc-100 text-center pt-48 h-full text-black relative pb-[114px]">
-          Contrast view
+        <div className="bg-zinc-100 text-center h-full text-black relative pb-[114px]">
+          <div className={`bg-red-400 row-10 grid col-1 items-center `}>
+            {twoDArr.map((rowArr, i) => {
+              return (
+                <>
+                  <div className="bg-green-400 flex">
+                    {rowArr.map((value, j) => {
+                      return (
+                        <>
+                          <div className="w-8 h-8 bg-black"></div>
+                          {rowArr.length - 1 !== j && (
+                            <div
+                              className={`w-8 h-8 ${
+                                userField[i * 2][j] ? "bg-red-500" : " "
+                              } cursor-pointer border border-black`}
+                              onClick={(e) => {
+                                var tmpArr = userField;
+                                tmpArr[i * 2][j] = tmpArr[i * 2][j] ? 0 : 1;
+                                setUserField(tmpArr);
+                                setReload(!reload);
+                              }}
+                            ></div>
+                          )}
+                        </>
+                      );
+                    })}
+                  </div>
+                  <div className="bg-green-400 flex">
+                    {rowArr.map((value, j) => {
+                      return (
+                        <>
+                          <div
+                            className={`w-8 h-8 ${
+                              userField[i * 2 + 1][j] ? "bg-red-500" : " "
+                            } cursor-pointer border border-black	`}
+                            onClick={(e) => {
+                              var tmpArr = userField;
+                              tmpArr[i * 2 + 1][j] = tmpArr[i * 2 + 1][j]
+                                ? 0
+                                : 1;
+                              setUserField(tmpArr);
+                              setReload(!reload);
+                            }}
+                          ></div>
+                          {rowArr.length - 1 !== j && (
+                            <div className="w-8 h-8 bg-white"></div>
+                          )}
+                        </>
+                      );
+                    })}
+                  </div>
+                </>
+              );
+            })}
+            <div className="bg-green-400 flex">
+              {twoDArr[0].map((value, j) => {
+                return (
+                  <>
+                    <div className="w-8 h-8 bg-black"></div>
+                    {twoDArr[0].length - 1 !== j && (
+                      <div
+                        className={`w-8 h-8 ${
+                          userField[twoDArr.length * 2][j] ? "bg-red-500" : " "
+                        } cursor-pointer border border-black`}
+                        onClick={(e) => {
+                          var tmpArr = userField;
+                          tmpArr[twoDArr.length * 2][j] = tmpArr[
+                            twoDArr.length * 2
+                          ][j]
+                            ? 0
+                            : 1;
+                          setUserField(tmpArr);
+                          setReload(!reload);
+                        }}
+                      ></div>
+                    )}
+                  </>
+                );
+              })}
+            </div>
+          </div>
         </div>
         <div
           className={`${fullscreen ? "hidden" : ""} ${

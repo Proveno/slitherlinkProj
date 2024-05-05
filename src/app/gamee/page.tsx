@@ -323,7 +323,7 @@ export default function Login() {
     <main className="bg-lightDark">
       <button
         onClick={(e) => {
-          seTTT(15, 15);
+          seTTT(5, 5);
           generateGame();
           console.table(pointsField);
         }}
