@@ -7,8 +7,18 @@ import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
+import CustomizedSwitches from "@/app/components/ThemeSwitcher";
+import React, { useState } from "react";
+
+
+
 
 const Header = (props: any) => {
+    const [isLightTheme, setIsLightTheme] = useState(false);
+
+    const toggleTheme = () => {
+        setIsLightTheme(!isLightTheme);
+    };
     return (
         <header
             className="bg-[--main-color] p-2 absolute top-0 left-0 right-0 z-[20] mx-auto flex flex-wrap w-full items-center justify-between">
@@ -63,6 +73,9 @@ const Header = (props: any) => {
                 <Button variant="contained" color="secondary">
                     Log in
                 </Button>
+            </div>
+            <div className={isLightTheme ? 'light-mode' : ''}>
+                <CustomizedSwitches theme={isLightTheme} setTheme={toggleTheme}/>
             </div>
         </header>
     );

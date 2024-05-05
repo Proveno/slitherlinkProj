@@ -28,3 +28,7 @@ body {
     ) rgb(var(--background-start-rgb));
 }
 
+.light-mode {
+    filter: invert(1);
+}
+

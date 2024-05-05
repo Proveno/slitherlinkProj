@@ -7,6 +7,7 @@ import SideDrawer from "@/app/lib/Drawer";
 import {useState} from "react";
 import PopUpFooter from "@/app/components/PopUpFooter";
 
+
 export default function Home() {
     const [sliderOpened, setSliderOpened] = useState(false);
     const [search, setSearch] = useState("");
