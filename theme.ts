@@ -28,4 +28,26 @@ const theme = createTheme({
   },
 });
 
+const darkTheme = createTheme({
+    typography: {
+        fontFamily: roboto.style.fontFamily,
+    },
+    palette: {
+        primary: {
+        light: "#4A34AB",
+        main: "#9296A8",
+        dark: "#e1b712",
+        contrastText: "#12",
+        },
+        secondary: {
+        light: "#3b3b3b",
+        main: "#6842FE",
+        dark: "#18181b",
+        contrastText: "#fff",
+        },
+        mode: "dark",
+    },
+});
+
+
 export default theme;
