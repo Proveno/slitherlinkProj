@@ -23,7 +23,6 @@ const Header = (props: any) => {
           <MenuIcon color="primary" />
         </IconButton>
       </div>
-
       <div className="w-2/5">
         <TextField
           onChange={(e) => {
