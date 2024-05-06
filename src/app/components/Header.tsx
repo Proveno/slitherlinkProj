@@ -35,46 +35,15 @@ const Header = (props: any) => {
           <MenuIcon color="primary" />
         </IconButton>
       </div>
-      {/*<div className="w-2/5">*/}
-      {/*    <TextField*/}
-      {/*        onChange={(e) => {*/}
-      {/*            props.setSearch(e.target.value);*/}
-      {/*        }}*/}
-      {/*        fullWidth*/}
-      {/*        id="search-input"*/}
-      {/*        label={"Search"}*/}
-      {/*        type="text"*/}
-      {/*        variant="outlined"*/}
-      {/*        InputLabelProps={{*/}
-      {/*            sx: {*/}
-      {/*                color: "#a1a1aa",*/}
-      {/*            },*/}
-      {/*        }}*/}
-      {/*        sx={{*/}
-      {/*            background: "#33354D",*/}
-      {/*            color: "#fff",*/}
-      {/*            borderRadius: "5px",*/}
-      {/*            input: {*/}
-      {/*                color: "#fff",*/}
-      {/*            },*/}
-      {/*        }}*/}
-      {/*        InputProps={{*/}
-      {/*            endAdornment: (*/}
-      {/*                <InputAdornment position="start">*/}
-      {/*                    <IconButton aria-label="delete">*/}
-      {/*                        <SearchIcon color="primary"/>*/}
-      {/*                    </IconButton>*/}
-      {/*                </InputAdornment>*/}
-      {/*            ),*/}
-      {/*        }}*/}
-      {/*    />*/}
-      {/*</div>*/}
 
       <Stack className="w-2/5">
         <Autocomplete
           freeSolo
           id="free-solo-2-demo"
           disableClearable
+          onChange={(e) => {
+            router.push("/comingSoon");
+          }}
           options={searchGames.map((option) => option.title)}
           PaperComponent={({ children, ...props }) => (
             <Paper
@@ -106,7 +75,12 @@ const Header = (props: any) => {
                 type: "search",
                 endAdornment: (
                   <InputAdornment position="start">
-                    <IconButton aria-label="search">
+                    <IconButton
+                      aria-label="search"
+                      onClick={(e) => {
+                        router.push("/comingSoon");
+                      }}
+                    >
                       <SearchIcon color="primary" />
                     </IconButton>
                   </InputAdornment>
