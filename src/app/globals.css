@@ -11,13 +11,13 @@
 /*    --text-color: rgba(191, 194, 207, 1);*/
 /*}*/
 
-/*@media (prefers-color-scheme: light) {*/
+/*@media (prefers-color-scheme: dark) {*/
 /*    :root {*/
-/*        --background-color: rgba(243, 242, 235, 1);*/
-/*        --main-color: rgba(224, 223, 207, 1);*/
-/*        --main-lightColor: rgba(215, 221, 176, 1);*/
-/*        --text-containerColor: rgba(200, 198, 173, 1);*/
-/*        --buttons-color: rgba(151, 189, 1, 1);*/
-/*        --text-color: rgba(64, 61, 48, 1);*/
+/*        --background-color: #0c0d14;*/
+/*        --main-color: #1f2030;*/
+/*        --main-lightColor: #28224f;*/
+/*        --text-containerColor: #373952;*/
+/*        --buttons-color: #6842fe;*/
+/*        --text-color: #bfc2cf;*/
 /*    }*/
 /*}*/

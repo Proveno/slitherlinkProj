@@ -2,7 +2,6 @@
 import Link from "next/link";
 import {useState} from "react";
 import {useRouter} from "next/navigation";
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -13,24 +12,19 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 export default function LoginForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
     const [error, setError] = useState("");
     const router = useRouter();
-
     const [showPassword, setShowPassword] = useState(false);
-
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: any) => {
         event.preventDefault();
     };
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-
         if (username.length === 0 || password.length === 0) {
             setError("All fields are necessary.");
             return;
         }
-
         try {
             fetch(
                 `${process.env.NEXT_PUBLIC_API_HOST}/Login?login=${username}&password=${password}`,
@@ -52,14 +46,14 @@ export default function LoginForm() {
     };
     return (
         <div className="bg-[#28224f] grid place-items-center h-screen px-5">
-            <div className="bg-[#1f2030] shadow-lg p-5 rounded-lg border-t-4 border-yellow w-full max-w-[30rem]">
+            <div className="bg-[#1f2030] shadow-lg p-5 rounded-lg border-t-4 w-full max-w-[30rem]">
                 <h1 className="text-[#bfc2cf] text-2xl text-center font-bold mt-3 mb-6">Login</h1>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                     <TextField
                         error={error.length > 0}
                         required
                         id="username-login-input"
-                        label={"Login"}
+                        label={"Username"}
                         type="text"
                         variant="outlined"
                         onChange={(e) => {
@@ -133,17 +127,22 @@ export default function LoginForm() {
                     >
                         Login
                     </Button>
-                    <div
-                        className={`flex ${error ? "justify-between" : "justify-end"}`}
-                    >
+                    <div className={`flex ${error ? "justify-between" : "justify-end"}`}>
                         {error && (
                             <div className="bg-errorBack text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
                                 {error}
                             </div>
                         )}
-                        <Link className="text-[#bfc2cf] text-sm text-right" href={"/login/register"}>
-                            <span className="underline">Register</span>
-                        </Link>
+                        <div className="flex-1">
+                            <Link className="text-[#bfc2cf] text-sm text-left flex-1" href="/">
+                                <span className="underline">Home</span>
+                            </Link>
+                        </div>
+                        <div className="flex-2">
+                            <Link className="text-[#bfc2cf] text-sm text-right flex-1" href="/login/register">
+                                <span className="underline">Register</span>
+                            </Link>
+                        </div>
                     </div>
                 </form>
             </div>

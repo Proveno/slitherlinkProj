@@ -2,7 +2,6 @@
 import Link from "next/link";
 import {useState} from "react";
 import {useRouter} from "next/navigation";
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -15,9 +14,7 @@ export default function RegisterForm() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
-
     const [showPassword, setShowPassword] = useState(false);
-
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: any) => {
         event.preventDefault();
@@ -25,7 +22,6 @@ export default function RegisterForm() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-
         if (username.length === 0 || password.length === 0) {
             setError("All fields are necessary.");
             return;
@@ -34,7 +30,6 @@ export default function RegisterForm() {
             setError("Password is too short.");
             return;
         }
-
         try {
             console.log("HMMM");
             fetch(`${process.env.NEXT_PUBLIC_API_HOST}/Register`, {
@@ -130,7 +125,6 @@ export default function RegisterForm() {
                             ),
                         }}
                     />
-
                     <Button
                         variant="contained"
                         color={"secondary"}
@@ -142,17 +136,22 @@ export default function RegisterForm() {
                     >
                         {"Submit"}
                     </Button>
-                    <div
-                        className={`flex ${error ? "justify-between" : "justify-end"}`}
-                    >
+                    <div className={`flex ${error ? "justify-between" : "justify-end"}`}>
                         {error && (
                             <div className="bg-errorBack text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
                                 {error}
                             </div>
                         )}
-                        <Link className="text-[#bfc2cf] text-sm text-right" href={"/login/"}>
-                            <span className="underline">Log in</span>
-                        </Link>
+                        <div className="flex-1">
+                            <Link className="text-[#bfc2cf] text-sm text-left flex-1" href="/">
+                                <span className="underline">Home</span>
+                            </Link>
+                        </div>
+                        <div className="flex-2">
+                            <Link className="text-[#bfc2cf] text-sm text-right flex-1" href="/login">
+                                <span className="underline">Log in</span>
+                            </Link>
+                        </div>
                     </div>
                 </form>
             </div>
