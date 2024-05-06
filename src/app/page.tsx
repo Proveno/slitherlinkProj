@@ -37,6 +37,7 @@ export default function Home() {
 
   const [reload, setReload] = useState(false);
   const [isSimilarValue, setIsSimilarValue] = useState<boolean>();
+  const [playerId, setPlayerId] = useState<string>();
 
   const [open, setOpen] = useState(false);
   const handleClose = (value: string) => {
@@ -69,16 +70,17 @@ export default function Home() {
       var token = await tokenInfo();
       if (token._id) {
         setIsLogined(true);
+        setPlayerId(token._id);
       }
 
-      const generatedGame = generateGame(5, 5);
+      const generatedGame = generateGame(9, 9);
       setTwoDArr(generatedGame.pointsField);
       setNumbersArr(generatedGame.userField);
       var arrTmp = [];
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 9; i++) {
         var rowTmpArr = [];
         var rowTmpArr2 = [];
-        for (let j = 0; j < 5; j++) {
+        for (let j = 0; j < 9; j++) {
           rowTmpArr.push(0);
           rowTmpArr2.push(0);
         }
@@ -88,7 +90,7 @@ export default function Home() {
         arrTmp.push(rowTmpArr2);
       }
       var rowTmpArr = [];
-      for (let j = 0; j < 5; j++) {
+      for (let j = 0; j < 9; j++) {
         rowTmpArr.push(0);
       }
       arrTmp.push(rowTmpArr);
@@ -289,7 +291,7 @@ export default function Home() {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     var tmpArr: any = [];
                     for (let i = 0; i < twoDArr.length; i++) {
                       var rowTmpArr = [];
@@ -325,6 +327,16 @@ export default function Home() {
                       });
                     });
                     setIsSimilarValue(isSimilar);
+                    if (isSimilar && isLogined) {
+                      fetch(`${process.env.NEXT_PUBLIC_API_HOST}/Score`, {
+                        method: "POST",
+                        body: JSON.stringify({
+                          player: playerId,
+                          game: "Slitherlink",
+                          points: tmpArr.length - 1,
+                        }),
+                      });
+                    }
                     setOpen(true);
                   }}
                 >
