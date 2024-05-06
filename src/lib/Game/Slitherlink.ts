@@ -1,274 +1,320 @@
+const WALL = 5;
+const SPACE = 0;
+const UP = 1;
+const RIGHT = 2;
+const DOWN = 3;
+const LEFT = 4;
+var pointsField: any[] = [];
+var userField: any = [];
+var startPointX: any;
+var startPointY: any;
+var length = 1;
 
-class Slitherlink{
-    WALL = 5;
-    SPACE = 9;
-    UP = 1;
-    RIGHT = 2;
-    DOWN = 3;
-    LEFT = 4;
-
-    pointsField:any;
-    ui:any;
-    userField:any;
-    startPointX:number;
-    startPointY:number;
-    length = 1;
-
-    constructor(row:number,col:number){
-        this.pointsField = [];
-        this.userField = [];
-        for (let i = 0; i < row; i++) {
-            this.pointsField.push([]);
-            for (let j = 0; j < col; j++) {
-                this.pointsField[i].push(this.SPACE);
-            }
-        }
-        for (let i = 0; i < row; i++) {
-            this.userField.push([]);
-            for (let j = 0; j < col; j++) {
-                this.userField[i].push(0);
-            }
-        }
+export function generateGame(row: any, col: any) {
+  pointsField = [];
+  userField = [];
+  for (var i = 0; i < row + 1; i++) {
+    pointsField.push([]);
+    for (var j = 0; j < col + 1; j++) {
+      pointsField[i].push(SPACE);
     }
+  }
+  for (var i = 0; i < row; i++) {
+    userField.push([]);
+    for (var j = 0; j < col; j++) {
+      userField[i].push(0);
+    }
+  }
+  var coordinates = [];
+  coordinates.push(startPointX);
+  coordinates.push(startPointY);
+  var possibleDirections = getPossibleDirections(
+    coordinates[0],
+    coordinates[1]
+  );
+  possibleDirections = possibleDirections.sort(
+    (a: any, b: any) => 0.5 - Math.random()
+  );
+  coordinates = makeStep(coordinates[0], coordinates[1], possibleDirections[0]);
+  var prevPrevDirection = 0;
+  var prevDirection = possibleDirections[0];
+
+  while (true) {
+    possibleDirections = getPossibleDirections(coordinates[0], coordinates[1]);
+
+    possibleDirections = possibleDirections.filter(
+      (direction: any) => direction !== reverseDirection(prevDirection)
+    );
+    // possibleDirections.remove(reverseDirection(prevDirection));
+
+    var turnBlockRes = turnBlock(prevDirection, prevPrevDirection);
+
+    if (turnBlockRes != 0) {
+      possibleDirections = possibleDirections.filter(
+        (direction: any) => direction !== turnBlockRes
+      );
+      // possibleDirections.remove((Integer) turnBlockRes);
+    }
+    if (
+      checkIsFinished(coordinates[0], coordinates[1], possibleDirections) &&
+      length > pointsField.length * 2
+    ) {
+      break;
+    } else {
+      var openedDirections = getOpenedDirections(
+        coordinates[0],
+        coordinates[1],
+        possibleDirections
+      );
+
+      if (openedDirections.length === 0) {
+        length = 1;
+        clearPointsField();
+        generateStartPoint();
+        coordinates = [];
+        coordinates.push(startPointX);
+        coordinates.push(startPointY);
+
+        possibleDirections = getPossibleDirections(
+          coordinates[0],
+          coordinates[1]
+        );
+        possibleDirections = possibleDirections.sort(
+          (a: any, b: any) => 0.5 - Math.random()
+        );
+
+        coordinates = makeStep(
+          coordinates[0],
+          coordinates[1],
+          possibleDirections[0]
+        );
+        prevPrevDirection = 0;
+        prevDirection = possibleDirections[0];
+      } else {
+        openedDirections = openedDirections.sort(
+          (a: any, b: any) => 0.5 - Math.random()
+        );
+        coordinates = makeStep(
+          coordinates[0],
+          coordinates[1],
+          openedDirections[0]
+        );
+        prevPrevDirection = prevDirection;
+        prevDirection = openedDirections[0];
+        length++;
+      }
+    }
+  }
+  generateUserField();
+  return { pointsField: pointsField, userField: userField };
 }
 
+function countBorders(x: any, y: any) {
+  var counter = 0;
+  if (pointsField[x][y] == WALL) {
+    return -1;
+  }
+  if (x > 0 && pointsField[x - 1][y] == WALL) {
+    counter++;
+  }
+  if (y > 0 && pointsField[x][y - 1] == WALL) {
+    counter++;
+  }
+  if (y < pointsField[0].length - 1 && pointsField[x][y + 1] == WALL) {
+    counter++;
+  }
+  if (x < pointsField.length - 1 && pointsField[x + 1][y] == WALL) {
+    counter++;
+  }
+  return counter;
+}
 
-
-package sk.tuke.gamestudio.game;
-
-import { AnyArray } from "mongoose";
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
-public class Slitherlink2 {
-
-
-    public Slitherlink(int row, int col) {
-
+function generateUserField() {
+  for (let i = 0; i < userField.length; i++) {
+    for (let j = 0; j < userField[i].length; j++) {
+      var tmpCount = 0;
+      if (pointsField[i + 1][j] === 5 && pointsField[i + 1][j + 1] === 5) {
+        tmpCount += 1;
+      }
+      if (pointsField[i][j] === 5 && pointsField[i + 1][j] === 5) {
+        tmpCount += 1;
+      }
+      if (pointsField[i][j + 1] === 5 && pointsField[i + 1][j + 1] === 5) {
+        tmpCount += 1;
+      }
+      if (pointsField[i][j] === 5 && pointsField[i][j + 1] === 5) {
+        tmpCount += 1;
+      }
+      if (tmpCount === 4) {
+        userField[i][j] = 2;
+      } else {
+        userField[i][j] = tmpCount;
+      }
     }
+  }
+}
+function clearPointsField() {
+  pointsField.map((rows: any, i: number) => {
+    rows.map((elem: any, j: number) => {
+      pointsField[i][j] = SPACE;
+    });
+  });
+}
 
-    public ArrayList<ArrayList<Integer>> getPointsField() {
-        return pointsField;
-    }
+function getOpenedDirections(x: any, y: any, possibleDirections: any) {
+  var openedDirections: any = [];
+  possibleDirections.map((direction: any) => {
+    if (!checkByDirection(x, y, direction)) openedDirections.push(direction);
+  });
 
-    public ArrayList<ArrayList<Integer>> getUserField() {
-        return userField;
-    }
+  return openedDirections;
+}
 
-    public void setUserField(ArrayList<ArrayList<Integer>> userField) {
-        this.userField = userField;
-    }
+function checkByDirection(x: any, y: any, direction: any) {
+  switch (direction) {
+    case UP:
+      {
+        return isBlocked(x - 1, y);
+      }
+      break;
+    case RIGHT:
+      {
+        return isBlocked(x, y + 1);
+      }
+      break;
+    case DOWN:
+      {
+        return isBlocked(x + 1, y);
+      }
+      break;
+    case LEFT:
+      {
+        return isBlocked(x, y - 1);
+      }
+      break;
+    default:
+      return true;
+  }
+}
+function isBlocked(x: any, y: any) {
+  return pointsField[x][y] == WALL;
+}
+function isFinish(x: any, y: any) {
+  return startPointX == x && startPointY == y;
+}
+function checkByDirectionFinish(x: any, y: any, direction: any) {
+  switch (direction) {
+    case UP:
+      {
+        return isFinish(x - 1, y);
+      }
+      break;
+    case RIGHT:
+      {
+        return isFinish(x, y + 1);
+      }
+      break;
+    case DOWN:
+      {
+        return isFinish(x + 1, y);
+      }
+      break;
+    case LEFT:
+      {
+        return isFinish(x, y - 1);
+      }
+      break;
+    default:
+      return true;
+  }
+}
 
-    public void generateGame() {
-        ui = new ConsoleUI(this);
-        generateStartPoint();
-        ArrayList<Integer> coordinates = new ArrayList<>();
-        coordinates.add(startPointX);
-        coordinates.add(startPointY);
+function checkIsFinished(x: any, y: any, possibleDirections: any) {
+  let checked = false;
+  possibleDirections.map((direction: any) => {
+    if (checkByDirectionFinish(x, y, direction)) checked = true;
+  });
+  return checked;
+}
 
-        ArrayList<Integer> possibleDirections = getPossibleDirections(coordinates.get(0), coordinates.get(1));
-        Collections.shuffle(possibleDirections);
-        coordinates = makeStep(coordinates.get(0), coordinates.get(1), possibleDirections.get(0));
-        int prevPrevDirection = 0;
-        int prevDirection = possibleDirections.get(0);
+function turnBlock(prev: any, prevprev: any) {
+  if (prev != prevprev) {
+    return reverseDirection(prevprev);
+  }
+  return 0;
+}
+function reverseDirection(direction: any) {
+  switch (direction) {
+    case UP:
+      {
+        return DOWN;
+      }
+      break;
+    case RIGHT:
+      {
+        return LEFT;
+      }
+      break;
+    case DOWN:
+      {
+        return UP;
+      }
+      break;
+    default:
+      return RIGHT;
+  }
+}
 
-        while (true) {
-            possibleDirections = getPossibleDirections(coordinates.get(0), coordinates.get(1));
-            possibleDirections.remove(reverseDirection(prevDirection));
-            int turnBlockRes = turnBlock(prevDirection, prevPrevDirection);
-            if (turnBlockRes != 0) {
-                possibleDirections.remove((Integer) turnBlockRes);
-            }
-            if (checkIsFinished(coordinates.get(0), coordinates.get(1), possibleDirections) && length > pointsField.size() * 2) {
-                break;
-            } else {
-                ArrayList<Integer> openedDirections = getOpenedDirections(coordinates.get(0), coordinates.get(1), possibleDirections);
+function makeStep(x: any, y: any, direction: any) {
+  var resultCoordinates = [];
+  switch (direction) {
+    case UP:
+      {
+        pointsField[x - 1][y] = WALL;
+        resultCoordinates.push(x - 1);
+        resultCoordinates.push(y);
+      }
+      break;
+    case RIGHT:
+      {
+        pointsField[x][y + 1] = WALL;
+        resultCoordinates.push(x);
+        resultCoordinates.push(y + 1);
+      }
+      break;
+    case DOWN:
+      {
+        pointsField[x + 1][y] = WALL;
+        resultCoordinates.push(x + 1);
+        resultCoordinates.push(y);
+      }
+      break;
+    case LEFT:
+      {
+        pointsField[x][y - 1] = WALL;
+        resultCoordinates.push(x);
+        resultCoordinates.push(y - 1);
+      }
+      break;
+  }
+  return resultCoordinates;
+}
 
-                if (openedDirections.isEmpty()) {
-                    length = 1;
-                    clearPointsField();
-                    generateStartPoint();
-                    coordinates.clear();
-                    coordinates.add(startPointX);
-                    coordinates.add(startPointY);
+function getPossibleDirections(x: any, y: any) {
+  var directions = [];
+  if (x - 1 >= 0) directions.push(UP);
+  if (y + 1 < pointsField[0].length) directions.push(RIGHT);
+  if (x + 1 < pointsField.length) directions.push(DOWN);
+  if (y - 1 >= 0) directions.push(LEFT);
+  return directions;
+}
 
-                    possibleDirections = getPossibleDirections(coordinates.get(0), coordinates.get(1));
-                    Collections.shuffle(possibleDirections);
-                    coordinates = makeStep(coordinates.get(0), coordinates.get(1), possibleDirections.get(0));
-                    prevPrevDirection = 0;
-                    prevDirection = possibleDirections.get(0);
-                } else {
-                    Collections.shuffle(openedDirections);
-                    coordinates = makeStep(coordinates.get(0), coordinates.get(1), openedDirections.get(0));
-                    prevPrevDirection = prevDirection;
-                    prevDirection = openedDirections.get(0);
-                    length++;
-                }
-            }
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
 
-        }
-        generateUserField();
-    }
-
-    private void clearPointsField() {
-        for (ArrayList<Integer> rows : pointsField) {
-            Collections.fill(rows, SPACE);
-        }
-    }
-
-    private int countBorders(int x, int y) {
-        int counter = 0;
-        if (pointsField.get(x).get(y) == WALL) {
-            return -1;
-        }
-        if (x > 0 && pointsField.get(x - 1).get(y) == WALL) {
-            counter++;
-        }
-        if (y > 0 && pointsField.get(x).get(y - 1) == WALL) {
-            counter++;
-        }
-        if (y < pointsField.get(0).size() - 1 && pointsField.get(x).get(y + 1) == WALL) {
-            counter++;
-        }
-        if (x < pointsField.size() - 1 && pointsField.get(x + 1).get(y) == WALL) {
-            counter++;
-        }
-        return counter;
-    }
-
-    public void generateUserField() {
-        for (int i = 0; i < pointsField.size(); i++) {
-            for (int j = 0; j < pointsField.get(i).size(); j++) {
-                int currentCell = pointsField.get(i).get(j);
-                if (currentCell == WALL) {
-                    continue;
-                }
-                int bordersCount = countBorders(i, j);
-                if (bordersCount >= 0) {
-                    userField.get(i).set(j, bordersCount);
-                }
-            }
-        }
-    }
-
-    private ArrayList<Integer> makeStep(int x, int y, int direction) {
-        ArrayList<Integer> resultCoordinates = new ArrayList<>();
-        switch (direction) {
-            case UP: {
-                pointsField.get(x - 1).set(y, WALL);
-                resultCoordinates.add(x - 1);
-                resultCoordinates.add(y);
-            }
-            break;
-            case RIGHT: {
-                pointsField.get(x).set(y + 1, WALL);
-                resultCoordinates.add(x);
-                resultCoordinates.add(y + 1);
-            }
-            break;
-            case DOWN: {
-                pointsField.get(x + 1).set(y, WALL);
-                resultCoordinates.add(x + 1);
-                resultCoordinates.add(y);
-            }
-            break;
-            case LEFT: {
-                pointsField.get(x).set(y - 1, WALL);
-                resultCoordinates.add(x);
-                resultCoordinates.add(y - 1);
-            }
-            break;
-        }
-        return resultCoordinates;
-    }
-
-    private Integer reverseDirection(int direction) {
-        return switch (direction) {
-            case UP -> DOWN;
-            case RIGHT -> LEFT;
-            case DOWN -> UP;
-            default -> RIGHT;
-        };
-    }
-
-    private boolean checkByDirection(int x, int y, int direction) {
-        return switch (direction) {
-            case UP -> isBlocked(x - 1, y);
-            case RIGHT -> isBlocked(x, y + 1);
-            case DOWN -> isBlocked(x + 1, y);
-            case LEFT -> isBlocked(x, y - 1);
-            default -> true;
-        };
-    }
-
-    private boolean checkByDirectionFinish(int x, int y, int direction) {
-        return switch (direction) {
-            case UP -> isFinish(x - 1, y);
-            case RIGHT -> isFinish(x, y + 1);
-            case DOWN -> isFinish(x + 1, y);
-            case LEFT -> isFinish(x, y - 1);
-            default -> true;
-        };
-    }
-
-    private boolean isBlocked(int x, int y) {
-        return pointsField.get(x).get(y) == WALL;
-    }
-
-    private boolean isFinish(int x, int y) {
-        return startPointX == x && startPointY == y;
-    }
-
-    private int turnBlock(int prev, int prevprev) {
-        if (prev != prevprev) {
-            return reverseDirection(prevprev);
-        }
-        return 0;
-    }
-
-    private ArrayList<Integer> getOpenedDirections(int x, int y, ArrayList<Integer> possibleDirections) {
-        ArrayList<Integer> openedDirections = new ArrayList<>();
-        for (int direction : possibleDirections)
-            if (!checkByDirection(x, y, direction)) openedDirections.add(direction);
-
-        return openedDirections;
-    }
-
-    private ArrayList<Integer> getPossibleDirections(int x, int y) {
-        ArrayList<Integer> directions = new ArrayList<>();
-        if (x - 1 >= 0) directions.add(UP);
-        if (y + 1 < pointsField.get(0).size()) directions.add(RIGHT);
-        if (x + 1 < pointsField.size()) directions.add(DOWN);
-        if (y - 1 >= 0) directions.add(LEFT);
-        return directions;
-    }
-
-    private boolean checkIsFinished(int x, int y, ArrayList<Integer> possibleDirections) {
-        for (int direction : possibleDirections)
-            if (checkByDirectionFinish(x, y, direction)) return true;
-        return false;
-    }
-
-    private void generateStartPoint() {
-        Random rand = new Random();
-        startPointX = rand.nextInt(pointsField.size());
-        startPointY = rand.nextInt(pointsField.get(0).size());
-        pointsField.get(startPointX).set(startPointY, WALL);
-    }
-
-    public boolean checkWinCondition() {
-        for (int i = 0; i < userField.size(); i++) {
-            for (int j = 0; j < userField.get(i).size(); j++) {
-                int cellValue = userField.get(i).get(j);
-                if (cellValue != WALL) {
-                    int bordersCount = countBorders(i, j);
-                    if (bordersCount != cellValue) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
+function generateStartPoint() {
+  startPointX = getRandomInt(pointsField.length);
+  startPointY = getRandomInt(pointsField[0].length);
+  pointsField[startPointX][startPointY] = WALL;
 }
