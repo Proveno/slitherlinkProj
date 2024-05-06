@@ -14,6 +14,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import PlayerTop from "@/app/components/PlayerTop";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [sliderOpened, setSliderOpened] = useState(false);
@@ -133,11 +134,12 @@ export default function Home() {
     getData();
   }, []);
 
+  const router = useRouter();
   useEffect(() => {
     switch (drawerClick) {
       case "Home":
         {
-          console.log("Home");
+          setIsPlayerTopOpened(false);
         }
         break;
       case "Chat":
@@ -153,12 +155,16 @@ export default function Home() {
         break;
       case "Top":
         {
-          setIsPlayerTopOpened(!isPlayerTopOpened);
+          setIsPlayerTopOpened(true);
         }
         break;
-      case "Replay":
+      case "Account":
         {
-          console.log("Replay");
+          if (isLogined) {
+            router.push("/account");
+          } else {
+            router.push("/login");
+          }
         }
         break;
       default:

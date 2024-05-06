@@ -10,7 +10,7 @@ const RatingSchema = new Schema(
     game: {
       type: String,
       required: true,
-      unique: true,
+      unique: false,
     },
     rating: {
       type: Number,
