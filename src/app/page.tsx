@@ -99,8 +99,16 @@ export default function Home() {
         setIsLogined(true);
         setPlayerId(token._id);
       }
+    } catch (error) {
+      console.log(error);
+    }
 
+<<<<<<< HEAD
       const generatedGame = generateGame(9, 9);
+=======
+    try {
+      const generatedGame = generateGame(5, 5);
+>>>>>>> 745684a (divide try catch imports)
       setTwoDArr(generatedGame.pointsField);
       setNumbersArr(generatedGame.userField);
       var arrTmp = [];
