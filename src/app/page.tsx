@@ -104,7 +104,7 @@ export default function Home() {
       console.log(error);
     }
     try {
-      const generatedGame = generateGame(5, 5);
+      const generatedGame = generateGame(9, 9);
       setTwoDArr(generatedGame.pointsField);
       setNumbersArr(generatedGame.userField);
       var arrTmp = [];
