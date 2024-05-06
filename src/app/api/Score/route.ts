@@ -6,12 +6,21 @@ export async function GET(req: any) {
   await connectMongoDB();
   const searchParams = req.nextUrl.searchParams;
   const _id = searchParams.get("id");
+  const game = searchParams.get("game");
+  const player = searchParams.get("player");
   if (_id) {
     const score = await Score.findById(_id);
     if (!score) {
       return NextResponse.json({ success: false }, { status: 404 });
     }
     return NextResponse.json({ success: true, data: score });
+  }
+  if (player) {
+    const allScores = await Score.find({ player: player, game: game });
+    if (!allScores) {
+      return NextResponse.json({ success: false }, { status: 404 });
+    }
+    return NextResponse.json({ success: true, data: allScores });
   }
 
   const scores = await Score.find({});
