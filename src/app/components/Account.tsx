@@ -126,7 +126,7 @@ export default function ModeratorAccount(params: any) {
       <div className="h-screen w-full overflow-auto p-4">
         <div className="md:pl-52 pt-24 md:py-8 w-full grid grid-cols-1 justify-items-center gap-4">
           <div className="w-full max-w-[30rem] bg-dark shadow-lg p-5 rounded-lg border-t-4 border-yellow">
-            {username && (
+            {username !== undefined && (
               <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                 {imageCropFieldOpened ? (
                   <div className="flex flex-col items-center py-35">
