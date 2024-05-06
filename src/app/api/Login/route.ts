@@ -16,7 +16,6 @@ export async function POST(req: any, res: any) {
 
   //LOOK HERE
 
-  console.log("OPAAA");
   const FoundPlayer = await Player.find({
     username: login,
   });

@@ -148,11 +148,6 @@ export default function Home() {
           setDrawerClick("");
         }
         break;
-      case "History":
-        {
-          console.log("History");
-        }
-        break;
       case "Top":
         {
           setIsPlayerTopOpened(true);
