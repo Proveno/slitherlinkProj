@@ -5,7 +5,7 @@ import Comments from "@/app/components/Comments";
 import SideDrawer from "@/app/components/Drawer";
 import Button from "@mui/material/Button";
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import PopUpFooter from "@/app/components/PopUpFooter";
 import { tokenInfo } from "@/lib/token";
 import { generateGame } from "@/lib/Game/Slitherlink";
@@ -14,19 +14,17 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 
-
 export default function Home() {
-    const [sliderOpened, setSliderOpened] = useState(false);
-    const [commentOpened, setCommentOpened] = useState(true);
-    const [search, setSearch] = useState("");
+  const [sliderOpened, setSliderOpened] = useState(false);
+  const [commentOpened, setCommentOpened] = useState(true);
+  const [search, setSearch] = useState("");
 
-    const [drawerClick, setDrawerClick] = useState("");
+  const [drawerClick, setDrawerClick] = useState("");
 
-    const [likeValue, setLikeValue] = useState();
-    const [ratingValue, setRatingValue] = useState();
-    const [contoll, setContoll] = useState(false);
-    const [fullscreen, setFullscreen] = useState(false);
-
+  const [likeValue, setLikeValue] = useState();
+  const [ratingValue, setRatingValue] = useState();
+  const [contoll, setContoll] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
 
   const [isLogined, setIsLogined] = useState(false);
   const [theme, setTheme] = useState(false);
@@ -103,48 +101,40 @@ export default function Home() {
     getData();
   }, []);
 
-    const getData = async () => {
-        try {
-            var token = await tokenInfo();
-            if (token._id) {
-                setIsLogined(true);
-            }
-        } catch (error) {
-            console.log(error);
+  useEffect(() => {
+    switch (drawerClick) {
+      case "Home":
+        {
+          console.log("Home");
         }
-    };
-    useEffect(() => {
-        getData();
-    }, []);
-
-    useEffect(() => {
-        switch (drawerClick) {
-            case "Home": {
-                console.log("Home");
-            }
-                break;
-            case "Chat": {
-                setCommentOpened(true);
-                setDrawerClick("");
-            }
-                break;
-            case "History": {
-                console.log("History");
-            }
-                break;
-            case "Top": {
-                console.log("Top");
-            }
-                break;
-            case "Replay": {
-                console.log("Replay");
-            }
-                break;
-            default: {
-            }
-                break;
+        break;
+      case "Chat":
+        {
+          setCommentOpened(true);
+          setDrawerClick("");
         }
-    }, [drawerClick]);
+        break;
+      case "History":
+        {
+          console.log("History");
+        }
+        break;
+      case "Top":
+        {
+          console.log("Top");
+        }
+        break;
+      case "Replay":
+        {
+          console.log("Replay");
+        }
+        break;
+      default:
+        {
+        }
+        break;
+    }
+  }, [drawerClick]);
 
   const [size, setSize] = useState<number | null>(9);
   const handleSize = (
@@ -350,24 +340,24 @@ export default function Home() {
           }`}
         >
           <PopUpFooter></PopUpFooter>
-                </div>
-                {/* <div className={`${fullscreen ? "hidden" : ""}`}> */}
-                <Footer
-                    setLikeValue={setLikeValue}
-                    setRatingValue={setRatingValue}
-                    setContoll={setContoll}
-                    fullscreen={fullscreen}
-                    setFullscreen={setFullscreen}
-                ></Footer>
-                {/* </div> */}
-            </div>
-            <div
-                className={`${commentOpened ? " " : "hidden"} ${
-                    fullscreen ? "hidden" : ""
-                } w-1/3 min-w-[14rem]`}
-            >
-                <Comments setCommentOpened={setCommentOpened}></Comments>
-            </div>
         </div>
-    );
+        {/* <div className={`${fullscreen ? "hidden" : ""}`}> */}
+        <Footer
+          setLikeValue={setLikeValue}
+          setRatingValue={setRatingValue}
+          setContoll={setContoll}
+          fullscreen={fullscreen}
+          setFullscreen={setFullscreen}
+        ></Footer>
+        {/* </div> */}
+      </div>
+      <div
+        className={`${commentOpened ? " " : "hidden"} ${
+          fullscreen ? "hidden" : ""
+        } w-1/3 min-w-[14rem]`}
+      >
+        <Comments setCommentOpened={setCommentOpened}></Comments>
+      </div>
+    </div>
+  );
 }
