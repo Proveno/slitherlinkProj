@@ -7,7 +7,6 @@ export async function POST(req: any) {
   await connectMongoDB();
   try {
     const body = await req.json();
-    console.log(body);
     var hop = body;
     hop.password = await bcrypt.hash(body.password, 10);
     const player = await Player.create(hop);

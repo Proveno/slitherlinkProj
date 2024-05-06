@@ -104,7 +104,7 @@ export default function Home() {
       console.log(error);
     }
     try {
-      const generatedGame = generateGame(5, 5);
+      const generatedGame = generateGame(9, 9);
       setTwoDArr(generatedGame.pointsField);
       setNumbersArr(generatedGame.userField);
       var arrTmp = [];
@@ -146,11 +146,6 @@ export default function Home() {
         {
           setCommentOpened(true);
           setDrawerClick("");
-        }
-        break;
-      case "History":
-        {
-          console.log("History");
         }
         break;
       case "Top":

@@ -34,7 +34,6 @@ const Comments = (props: any) => {
                   }
                 );
                 const { data } = await ress.json();
-                console.log(data);
                 return {
                   ...comment,
                   player:
