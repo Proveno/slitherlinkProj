@@ -5,12 +5,12 @@ const ScoreSchema = new Schema(
     player: {
       type: String,
       required: true,
-      unique: true,
+      unique: false,
     },
     game: {
       type: String,
       required: true,
-      unique: true,
+      unique: false,
     },
     points: {
       type: Number,
